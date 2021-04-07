@@ -1,0 +1,111 @@
+apply plugin: 'com.android.application'
+
+ext {
+    version_sdk = [
+            compileSdk: 28,
+            buildTools: "28.0.1",
+            minSdk    : 14,
+            //targetSdk: compileSdk,
+    ]
+    version_sdk.targetSdk = version_sdk.compileSdk
+    version_lib = [
+            appcompat  : '28.0.0',
+            butterknife: "8.7.0",
+    ]
+}
+
+android {
+    compileSdkVersion version_sdk.compileSdk
+    buildToolsVersion version_sdk.buildTools
+
+    defaultConfig {
+        minSdkVersion version_sdk.minSdk
+        targetSdkVersion version_sdk.targetSdk
+
+        versionCode 37
+        versionName "1.2.7"
+
+        applicationId "io.github.gsantner.memetastic"
+
+        buildConfigField "boolean", "IS_TEST_BUILD", "false"
+        buildConfigField "boolean", "IS_GPLAY_BUILD", "false"
+        buildConfigField("String[]", "APPLICATION_LANGUAGES", '{' + getUsedAndroidLanguages().collect {"\"${it}\""}.join(",")  + '}')
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "version"
+    productFlavors {
+        flavorDefault {
+        }
+        flavorGplay {
+            buildConfigField "boolean", "IS_GPLAY_BUILD", "true"
+        }
+        flavorTest {
+            applicationId "io.github.gsantner.memetastic.test"
+            versionCode = Integer.parseInt(new Date().format('yyMMdd'))
+            versionName = new Date().format('yyMMdd')
+            buildConfigField "boolean", "IS_TEST_BUILD", "true"
+        }
+    }
+
+    lintOptions {
+        disable 'MissingTranslation'
+    }
+
+    sourceSets { main { assets.srcDirs = ['src/main/assets'] } }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+
+    // Android standard libs
+    implementation "com.android.support:appcompat-v7:${version_lib.appcompat}"
+    implementation "com.android.support:design:${version_lib.appcompat}"
+    implementation "com.android.support:support-v4:${version_lib.appcompat}"
+    implementation "com.android.support:cardview-v7:${version_lib.appcompat}"
+    implementation "com.android.support:recyclerview-v7:${version_lib.appcompat}"
+
+    // UI libraries
+    implementation 'com.github.DASAR:ShiftColorPicker:v0.5'
+
+    // Tool libraries
+    implementation "com.jakewharton:butterknife:${version_lib.butterknife}"
+
+    annotationProcessor "com.jakewharton:butterknife-compiler:${version_lib.butterknife}"
+}
+
+@SuppressWarnings(["UnnecessaryQualifiedReference", "SpellCheckingInspection"])
+static String[] getUsedAndroidLanguages() {
+    Set<String> langs = new HashSet<>()
+    new File('.').eachFileRecurse(groovy.io.FileType.DIRECTORIES) {
+        final foldername = it.name
+        if (foldername.startsWith('values-') && !it.canonicalPath.contains("build" + File.separator + "intermediates")) {
+            new File(it.toString()).eachFileRecurse(groovy.io.FileType.FILES) {
+                if (it.name.toLowerCase().endsWith(".xml") && it.getCanonicalFile().getText('UTF-8').contains("<string")) {
+                    langs.add(foldername.replace("values-", ""))
+                }
+            }
+        }
+    }
+    return langs.toArray(new String[langs.size()])
+}
+
+final String RAW_DIR = "app/src/main/res/raw"
+final String[] ROOT_TO_RAW_COPYFILES = ["README.md", "LICENSE.txt", "CHANGELOG.md", "CONTRIBUTORS.md"]
+
+// Called before building
+task copyRepoFiles(type: Copy) {
+
+    // Copy files over to raw dir
+    from rootProject.files(ROOT_TO_RAW_COPYFILES)
+    into RAW_DIR.replaceFirst("app/", "")
+    rename { String fileName ->
+        fileName.replace(fileName, fileName.toLowerCase())
+    }
+}
+tasks.copyRepoFiles.finalizedBy()
