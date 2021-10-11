@@ -66,9 +66,8 @@ public class AboutActivity extends AppCompatActivity {
                 ContextUtils.get().loadMarkdownForTextViewFromRaw(R.raw.maintainers, "")
         );
 
-        cu.setHtmlToTextView(textContributors,
-                cu.loadMarkdownForTextViewFromRaw(R.raw.contributors, "")
-        );
+        // Raw resource not available
+        //cu.setHtmlToTextView(textContributors, cu.loadMarkdownForTextViewFromRaw(R.raw.contributors, ""));
 
         // License text MUST be shown
         try {
@@ -96,19 +95,21 @@ public class AboutActivity extends AppCompatActivity {
         Context context = v.getContext();
         switch (v.getId()) {
             case R.id.about__activity__text_app_version: {
-                try {
-                    ActivityUtils.get(this).showDialogWithHtmlTextView(R.string.changelog, new SimpleMarkdownParser().parse(
+                /*try {
+                    // Raw resource not available
+                     ActivityUtils.get(this).showDialogWithHtmlTextView(R.string.changelog, new SimpleMarkdownParser().parse(
                             getResources().openRawResource(R.raw.changelog),
                             "", SimpleMarkdownParser.FILTER_ANDROID_TEXTVIEW, SimpleMarkdownParser.FILTER_CHANGELOG
                             ).getHtml()
                     );
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
                 break;
             }
             case R.id.about__activity__button_app_license: {
-                ActivityUtils.get(this).showDialogWithHtmlTextView(R.string.licenses, ContextUtils.get().readTextfileFromRawRes(R.raw.license, "", ""), false, null);
+                // Raw resource not available
+                //ActivityUtils.get(this).showDialogWithHtmlTextView(R.string.licenses, ContextUtils.get().readTextfileFromRawRes(R.raw.license, "", ""), false, null);
                 break;
             }
             case R.id.about__activity__button_third_party_licenses: {
