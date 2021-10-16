@@ -13,11 +13,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -415,14 +415,14 @@ public class MemeCreateActivity extends AppCompatActivity {
     }
 
     private void initMoarControlsContainer() {
-        final LineColorPicker colorPickerShade = ButterKnife.findById(this, R.id.memecreate__moar_controls__color_picker_for_border);
-        final LineColorPicker colorPickerText = ButterKnife.findById(this, R.id.memecreate__moar_controls__color_picker_for_text);
-        final Spinner dropdownFont = ButterKnife.findById(this, R.id.memecreate__moar_controls__dropdown_font);
-        final SeekBar seekFontSize = ButterKnife.findById(this, R.id.memecreate__moar_controls__seek_font_size);
-        final ToggleButton toggleAllCaps = ButterKnife.findById(this, R.id.memecreate__moar_controls__toggle_all_caps);
-        final Button rotateButton = ButterKnife.findById(this, R.id.memecreate__moar_controls__rotate_plus_90deg);
-        final LineColorPicker colorPickerPadding = ButterKnife.findById(this, R.id.memecreate__moar_controls__color_picker_for_padding);
-        final SeekBar seekPaddingSize = ButterKnife.findById(this, R.id.memecreate__moar_controls__seek_padding_size);
+        final LineColorPicker colorPickerShade = findViewById(R.id.memecreate__moar_controls__color_picker_for_border);
+        final LineColorPicker colorPickerText = findViewById(R.id.memecreate__moar_controls__color_picker_for_text);
+        final Spinner dropdownFont = findViewById(R.id.memecreate__moar_controls__dropdown_font);
+        final SeekBar seekFontSize = findViewById( R.id.memecreate__moar_controls__seek_font_size);
+        final ToggleButton toggleAllCaps = findViewById( R.id.memecreate__moar_controls__toggle_all_caps);
+        final Button rotateButton = findViewById(R.id.memecreate__moar_controls__rotate_plus_90deg);
+        final LineColorPicker colorPickerPadding = findViewById(R.id.memecreate__moar_controls__color_picker_for_padding);
+        final SeekBar seekPaddingSize = findViewById(R.id.memecreate__moar_controls__seek_padding_size);
 
         colorPickerText.setColors(MemeLibConfig.MEME_COLORS.ALL);
         colorPickerShade.setColors(MemeLibConfig.MEME_COLORS.ALL);

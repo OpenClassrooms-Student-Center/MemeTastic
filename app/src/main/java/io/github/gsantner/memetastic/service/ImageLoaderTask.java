@@ -3,7 +3,7 @@ package io.github.gsantner.memetastic.service;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
 

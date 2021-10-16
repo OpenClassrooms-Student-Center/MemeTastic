@@ -12,7 +12,7 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" />
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/item__square_image__image_bottom_end"
         android:layout_width="32dp"
         android:layout_height="32dp"
