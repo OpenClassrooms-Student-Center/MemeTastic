@@ -25,7 +25,7 @@ android {
 
         buildConfigField "boolean", "IS_TEST_BUILD", "false"
         buildConfigField "boolean", "IS_GPLAY_BUILD", "false"
-        buildConfigField("String[]", "APPLICATION_LANGUAGES", '{' + getUsedAndroidLanguages().collect {"\"${it}\""}.join(",")  + '}')
+        buildConfigField("String[]", "APPLICATION_LANGUAGES", '{' + getUsedAndroidLanguages().collect { "\"${it}\"" }.join(",") + '}')
     }
     buildTypes {
         release {
@@ -84,12 +84,8 @@ static String[] getUsedAndroidLanguages() {
     Set<String> langs = new HashSet<>()
     new File('.').eachFileRecurse(groovy.io.FileType.DIRECTORIES) {
         final foldername = it.name
-        if (foldername.startsWith('values-') && !it.canonicalPath.contains("build" + File.separator + "intermediates")) {
-            new File(it.toString()).eachFileRecurse(groovy.io.FileType.FILES) {
-                if (it.name.toLowerCase().endsWith(".xml") && it.getCanonicalFile().getText('UTF-8').contains("<string")) {
-                    langs.add(foldername.replace("values-", ""))
-                }
-            }
+        if (foldername.startsWith('values-') && !it.canonicalPath.contains("build" + File.separator + "intermediates") && foldername != "values-v21" && foldername != "values-w820dp") {
+            langs.add(foldername.replace("values-", ""))
         }
     }
     return langs.toArray(new String[langs.size()])
